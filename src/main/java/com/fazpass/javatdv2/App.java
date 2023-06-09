@@ -1,4 +1,4 @@
-package com.fazpass.java-trusted-device-v2;
+package com.fazpass.javatdv2;
 
 /**
  * Hello world!
