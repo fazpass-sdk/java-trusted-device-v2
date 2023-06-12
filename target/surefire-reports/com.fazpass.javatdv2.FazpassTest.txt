@@ -1,27 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.fazpass.javatdv2.FazpassTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in com.fazpass.javatdv2.FazpassTest
-junit.framework.TestSuite$1.warning  Time elapsed: 0 s  <<< FAILURE!
-junit.framework.AssertionFailedError: No tests found in com.fazpass.javatdv2.FazpassTest
-	at junit.framework.Assert.fail(Assert.java:47)
-	at junit.framework.TestSuite$1.runTest(TestSuite.java:263)
-	at junit.framework.TestCase.runBare(TestCase.java:127)
-	at junit.framework.TestResult$1.protect(TestResult.java:106)
-	at junit.framework.TestResult.runProtected(TestResult.java:124)
-	at junit.framework.TestResult.run(TestResult.java:109)
-	at junit.framework.TestCase.run(TestCase.java:118)
-	at junit.framework.TestSuite.runTest(TestSuite.java:208)
-	at junit.framework.TestSuite.run(TestSuite.java:203)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.apache.maven.surefire.junit.JUnitTestSetExecutor.execute(JUnitTestSetExecutor.java:91)
-	at org.apache.maven.surefire.junit.JUnit3Provider.executeTestSet(JUnit3Provider.java:149)
-	at org.apache.maven.surefire.junit.JUnit3Provider.invoke(JUnit3Provider.java:106)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:456)
-	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:169)
-	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:595)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:581)
-
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1 s - in com.fazpass.javatdv2.FazpassTest

@@ -3,6 +3,9 @@ com\fazpass\javatdv2\Device.class
 com\fazpass\javatdv2\dto\response\CheckResponse.class
 com\fazpass\javatdv2\dto\request\CheckRequest.class
 com\fazpass\javatdv2\Fazpass.class
+com\fazpass\javatdv2\exception\DecryptionException.class
+com\fazpass\javatdv2\exception\FazpassException.class
+com\fazpass\javatdv2\exception\ResponseException.class
 com\fazpass\javatdv2\TrustedDevice.class
 com\fazpass\javatdv2\App.class
 com\fazpass\javatdv2\dto\Data.class
