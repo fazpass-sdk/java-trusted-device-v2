@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fazpass.javatdv2.FazpassTest" time="0.001" tests="1" errors="0" skipped="0" failures="1">
+  <properties>
+    <property name="sun.desktop" value="windows"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="D:\Projects\Fazpass\V2\java-trusted-device-v2\target\test-classes;D:\Projects\Fazpass\V2\java-trusted-device-v2\target\classes;C:\Users\Andri\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Bangkok"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="D:\Installed\jdk1.8.0_231\jre\bin"/>
+    <property name="sun.java.command" value="C:\Users\Andri\AppData\Local\Temp\surefire6388256043420188888\surefirebooter-20230609142441527_3.jar C:\Users\Andri\AppData\Local\Temp\surefire6388256043420188888 2023-06-09T14-24-41_048-jvmRun1 surefire-20230609142441527_1tmp surefire_0-20230609142441527_2tmp"/>
+    <property name="surefire.test.class.path" value="D:\Projects\Fazpass\V2\java-trusted-device-v2\target\test-classes;D:\Projects\Fazpass\V2\java-trusted-device-v2\target\classes;C:\Users\Andri\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Andri"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.home" value="D:\Installed\jdk1.8.0_231\jre"/>
+    <property name="basedir" value="D:\Projects\Fazpass\V2\java-trusted-device-v2"/>
+    <property name="file.separator" value="\"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="surefire.real.class.path" value="C:\Users\Andri\AppData\Local\Temp\surefire6388256043420188888\surefirebooter-20230609142441527_3.jar;C:\\Users\\Andri\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.7\\org.jacoco.agent-0.8.7-runtime.jar"/>
+    <property name="sun.boot.class.path" value="D:\Installed\jdk1.8.0_231\jre\lib\resources.jar;D:\Installed\jdk1.8.0_231\jre\lib\rt.jar;D:\Installed\jdk1.8.0_231\jre\lib\sunrsasign.jar;D:\Installed\jdk1.8.0_231\jre\lib\jsse.jar;D:\Installed\jdk1.8.0_231\jre\lib\jce.jar;D:\Installed\jdk1.8.0_231\jre\lib\charsets.jar;D:\Installed\jdk1.8.0_231\jre\lib\jfr.jar;D:\Installed\jdk1.8.0_231\jre\classes"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="1.8.0_231-b11"/>
+    <property name="user.name" value="Andri"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.endorsed.dirs" value="D:\Installed\jdk1.8.0_231\jre\lib\endorsed"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\Andri\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\Andri\AppData\Local\Temp\"/>
+    <property name="java.version" value="1.8.0_231"/>
+    <property name="user.dir" value="D:\Projects\Fazpass\V2\java-trusted-device-v2"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.library.path" value="D:\Installed\jdk1.8.0_231\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Eclipse Adoptium\jdk-17.0.7.7-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\Installed\Python;C:\Users\Andri\AppData\Local\Coursier\data\bin;D:\Installed\flutter\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Users\Andri\AppData\Roaming\npm;D:\Installed\Go\bin;%MAVEN_HOME%\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\ProgramData\chocolatey\bin;C:\Users\Andri\.jbang\bin;C:\Users\Andri\AppData\Local\Microsoft\WindowsApps;D:\Installed\nodejs;D:\Installed\Git\bin;D:\Installed\Python\Scripts;D:\Installed\yarn\bin;D:\Installed\gradle-7.6\bin;D:\Installed\flutter;C:\Users\Andri\AppData\Local\Programs\Microsoft VS Code\bin;D:\Installed\Python;D:\Installed\sdk\tools;D:\Installed\sdk\tools\bin;D:\Installed\sdk\platform-tools;D:\Installed\flutter\bin;C:\Users\Andri\AppData\Local\GitHubDesktop\bin;C:\Users\Andri\AppData\Local\Coursier\data\bin;D:\Installed\JetBrains\IntelliJ IDEA Community Edition 2022.1.3\bin;D:\Installed\Go\bin;C:\Users\Andri\go\bin;D:\Installed\apache-maven-3.9.0\bin;;."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="25.231-b11"/>
+    <property name="java.ext.dirs" value="D:\Installed\jdk1.8.0_231\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="52.0"/>
+  </properties>
+  <testcase name="warning" classname="junit.framework.TestSuite$1" time="0">
+    <failure message="No tests found in com.fazpass.javatdv2.FazpassTest" type="junit.framework.AssertionFailedError"><![CDATA[junit.framework.AssertionFailedError: No tests found in com.fazpass.javatdv2.FazpassTest
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.TestSuite$1.runTest(TestSuite.java:263)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit.JUnitTestSetExecutor.execute(JUnitTestSetExecutor.java:91)
+	at org.apache.maven.surefire.junit.JUnit3Provider.executeTestSet(JUnit3Provider.java:149)
+	at org.apache.maven.surefire.junit.JUnit3Provider.invoke(JUnit3Provider.java:106)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:456)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:169)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:595)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:581)
+]]></failure>
+  </testcase>
+</testsuite>
