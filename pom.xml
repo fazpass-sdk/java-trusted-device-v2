@@ -53,20 +53,41 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version>
+        <version>0.8.6</version>
         <executions>
           <execution>
+            <id>default-prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
-          <!-- attached to Maven test phase -->
           <execution>
-            <id>report</id>
-            <phase>test</phase>
+            <id>default-report</id>
+            <phase>prepare-package</phase>
             <goals>
               <goal>report</goal>
             </goals>
+          </execution>
+          <execution>
+            <id>default-check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <excludes>
+                    <!-- Add the classes you want to ignore here -->
+                    <exclude>com/fazpass/javatdv2/dto/*</exclude>
+                    <exclude>com/fazpass/javatdv2/exception/*</exclude>
+                    <exclude>com/fazpass/javatdv2/App.java</exclude>
+                    <exclude>com/fazpass/javatdv2/Device.java</exclude>
+                    <exclude>com/fazpass/javatdv2/TrustedDevice.java</exclude>
+                  </excludes>
+                </rule>
+              </rules>
+            </configuration>
           </execution>
         </executions>
       </plugin>
