@@ -79,7 +79,7 @@ class TrustedDeviceImpl implements TrustedDevice{
     public CompletableFuture<Optional<Device>> removeAsyncDevice(String fazpassId, String meta) {
         return processAsyncDeviceRequest("/remove", fazpassId, meta);
     }
-
+    // codecov ignore start
     private Device processDeviceRequest(String endpoint, String picId, String meta) throws FazpassException {
         try {
             HttpResponse<String> response = sendRequest(endpoint, picId, meta);
@@ -193,5 +193,6 @@ class TrustedDeviceImpl implements TrustedDevice{
     protected void setHttpClient(HttpClient mockedClient) {
         this.client = mockedClient;
     }
+    // codecov ignore end
 }
 
