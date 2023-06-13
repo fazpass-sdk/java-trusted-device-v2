@@ -46,6 +46,12 @@
       <artifactId>bcpkix-jdk15on</artifactId>
       <version>1.50</version>
     </dependency>
+      <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.14</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>
@@ -82,7 +88,6 @@
                     <exclude>com/fazpass/javatdv2/dto/*</exclude>
                     <exclude>com/fazpass/javatdv2/exception/*</exclude>
                     <exclude>com/fazpass/javatdv2/App.java</exclude>
-                    <exclude>com/fazpass/javatdv2/Device.java</exclude>
                     <exclude>com/fazpass/javatdv2/TrustedDevice.java</exclude>
                   </excludes>
                 </rule>

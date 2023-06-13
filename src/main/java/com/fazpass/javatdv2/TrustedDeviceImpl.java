@@ -30,7 +30,7 @@ import javax.crypto.Cipher;
 class TrustedDeviceImpl implements TrustedDevice{
     private final String privateKey;
     private final String baseUrl;
-    private final HttpClient client;
+    private HttpClient client;
     private final ObjectMapper objectMapper;
     public TrustedDeviceImpl(String privateKey, String baseUrl) {
 
@@ -93,15 +93,15 @@ class TrustedDeviceImpl implements TrustedDevice{
         return sendAsyncRequest(endpoint, picId, meta);
     }
 
-    private Device parseDeviceFromResponse(String responseBody) throws DecryptionException {
+    protected Device parseDeviceFromResponse(String responseBody) throws DecryptionException {
         return decryptResponse(responseBody).orElseThrow(() -> new DecryptionException("Invalid device response"));
     }
 
-    private Optional<Device> parseDeviceFromAsyncResponse(String responseBody) {
+    protected Optional<Device> parseDeviceFromAsyncResponse(String responseBody) {
         return decryptResponse(responseBody);
     }
 
-    private Optional<Device> decryptResponse(String responseBody) {
+    protected Optional<Device> decryptResponse(String responseBody) {
         try {
             Map<String, Object> response = objectMapper.readValue(responseBody, Map.class);
             Map<String, Object> data = (Map<String, Object>) response.get("data");
@@ -116,6 +116,7 @@ class TrustedDeviceImpl implements TrustedDevice{
             Device device = objectMapper.readValue(jsonString, Device.class);
             return Optional.ofNullable(device);
         } catch (Exception e) {
+            System.out.println("Error while decrypting or parsing the response: " + e.getMessage());
             e.printStackTrace();
             return Optional.empty();
         }
@@ -158,7 +159,7 @@ class TrustedDeviceImpl implements TrustedDevice{
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private CompletableFuture<Optional<Device>> sendAsyncRequest(String endpoint, String picId, String meta) {
+    protected CompletableFuture<Optional<Device>> sendAsyncRequest(String endpoint, String picId, String meta) {
         Map<String, String> requestData = new HashMap<>();
         if(endpoint.equals("check") || endpoint.equals("enroll")){
             requestData.put("picId", picId);
@@ -189,5 +190,8 @@ class TrustedDeviceImpl implements TrustedDevice{
                 });
     }
 
+    protected void setHttpClient(HttpClient mockedClient) {
+        this.client = mockedClient;
+    }
 }
 
