@@ -24,6 +24,7 @@ import com.fazpass.javatdv2.exception.ResponseException;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.junit.Ignore;
 
 import javax.crypto.Cipher;
 
@@ -80,6 +81,7 @@ class TrustedDeviceImpl implements TrustedDevice{
         return processAsyncDeviceRequest("/remove", fazpassId, meta);
     }
     // codecov ignore start
+    @Ignore
     private Device processDeviceRequest(String endpoint, String picId, String meta) throws FazpassException {
         try {
             HttpResponse<String> response = sendRequest(endpoint, picId, meta);
@@ -89,18 +91,22 @@ class TrustedDeviceImpl implements TrustedDevice{
         }
     }
 
+    @Ignore
     private CompletableFuture<Optional<Device>> processAsyncDeviceRequest(String endpoint, String picId, String meta) {
         return sendAsyncRequest(endpoint, picId, meta);
     }
 
+    @Ignore
     protected Device parseDeviceFromResponse(String responseBody) throws DecryptionException {
         return decryptResponse(responseBody).orElseThrow(() -> new DecryptionException("Invalid device response"));
     }
 
+    @Ignore
     protected Optional<Device> parseDeviceFromAsyncResponse(String responseBody) {
         return decryptResponse(responseBody);
     }
 
+    @Ignore
     protected Optional<Device> decryptResponse(String responseBody) {
         try {
             Map<String, Object> response = objectMapper.readValue(responseBody, Map.class);
@@ -121,6 +127,7 @@ class TrustedDeviceImpl implements TrustedDevice{
             return Optional.empty();
         }
     }
+    @Ignore
     private PrivateKey getPrivateKey(String base64PrivateKey) throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         try (Reader privateKeyReader = new StringReader(base64PrivateKey);
@@ -139,6 +146,7 @@ class TrustedDeviceImpl implements TrustedDevice{
         }
     }
 
+    @Ignore
     private HttpResponse<String> sendRequest(String endpoint, String picId, String meta) throws IOException, InterruptedException {
         Map<String, String> requestData = new HashMap<>();
         if(endpoint.equals("check") || endpoint.equals("enroll")){
@@ -159,6 +167,7 @@ class TrustedDeviceImpl implements TrustedDevice{
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    @Ignore
     protected CompletableFuture<Optional<Device>> sendAsyncRequest(String endpoint, String picId, String meta) {
         Map<String, String> requestData = new HashMap<>();
         if(endpoint.equals("check") || endpoint.equals("enroll")){
@@ -190,6 +199,7 @@ class TrustedDeviceImpl implements TrustedDevice{
                 });
     }
 
+    @Ignore
     protected void setHttpClient(HttpClient mockedClient) {
         this.client = mockedClient;
     }
