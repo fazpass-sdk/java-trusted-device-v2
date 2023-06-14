@@ -81,8 +81,6 @@ class Utils {
             Device device = objectMapper.readValue(jsonString, Device.class);
             return Optional.ofNullable(device);
         } catch (Exception e) {
-            System.out.println("Error while decrypting or parsing the response: " + e.getMessage());
-            e.printStackTrace();
             return Optional.empty();
         }
     }
