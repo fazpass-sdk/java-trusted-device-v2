@@ -106,7 +106,7 @@ class Utils {
     }
 
     @Ignore
-    private HttpResponse<String> sendRequest(String endpoint, String picId, String meta) throws IOException, InterruptedException {
+    protected HttpResponse<String> sendRequest(String endpoint, String picId, String meta) throws IOException, InterruptedException {
         Map<String, String> requestData = new HashMap<>();
         if(endpoint.equals("check") || endpoint.equals("enroll")){
             requestData.put("picId", picId);
