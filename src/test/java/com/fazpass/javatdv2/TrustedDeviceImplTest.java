@@ -1,14 +1,17 @@
 package com.fazpass.javatdv2;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fazpass.javatdv2.exception.FazpassException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -18,10 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TrustedDeviceImplTest {
-    private TrustedDevice trustedDevice;
-
+    private TrustedDeviceImpl trustedDevice;
+    private HttpClient mockedClient;
+    private ObjectMapper objectMapper;
     @BeforeEach
     void setUp() {
+        mockedClient = Mockito.mock(HttpClient.class);
+        objectMapper = new ObjectMapper();
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -30,6 +36,7 @@ class TrustedDeviceImplTest {
         }
         String baseUrl = "http://localhost";
         trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
+        trustedDevice.setHttpClient(mockedClient);
     }
     public static String readKeyFromFile(String filePath) throws IOException {
         return new String(Files.readAllBytes(Paths.get(filePath)));
@@ -57,15 +64,16 @@ class TrustedDeviceImplTest {
             }
             String baseUrl = "http://localhost";
             TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-            trustedDevice.setHttpClient(mockedClient);
+            Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+            u.setHttpClient(mockedClient);
 
             Device expectedDevice = new Device();
-            TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
+            Utils spyDevice = Mockito.spy(u);
             Mockito.doReturn(expectedDevice).when(spyDevice).parseDeviceFromResponse(responseBody);
 
             String picId = "your-pic-id";
             String meta = "your-meta-data";
-            Device resultDevice = spyDevice.checkDevice(picId, meta);
+            Device resultDevice = trustedDevice.checkDevice(picId, meta);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
@@ -93,6 +101,9 @@ class TrustedDeviceImplTest {
                     CompletableFuture<HttpResponse<String>> future = CompletableFuture.completedFuture(mockedResponse);
                     return future;
                 });
+
+        String picId = "your-pic-id";
+        String meta = "your-meta-data";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -101,15 +112,13 @@ class TrustedDeviceImplTest {
         }
         String baseUrl = "http://localhost";
         TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-        trustedDevice.setHttpClient(mockedClient);
-
         Device expectedDevice = new Device();
-        TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
-        Mockito.doReturn(Optional.of(expectedDevice)).when(spyDevice).parseDeviceFromAsyncResponse(responseBody);
+        Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+        Utils spyUtils = Mockito.spy(u);
+        Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
+        trustedDevice.setUtils(spyUtils);
 
-        String picId = "your-pic-id";
-        String meta = "your-meta-data";
-        CompletableFuture<Optional<Device>> resultDeviceFuture = spyDevice.checkAsyncDevice(picId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.checkAsyncDevice(picId, meta);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
@@ -141,15 +150,16 @@ class TrustedDeviceImplTest {
             }
             String baseUrl = "http://localhost";
             TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-            trustedDevice.setHttpClient(mockedClient);
+            Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+            u.setHttpClient(mockedClient);
 
             Device expectedDevice = new Device();
-            TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
+            Utils spyDevice = Mockito.spy(u);
             Mockito.doReturn(expectedDevice).when(spyDevice).parseDeviceFromResponse(responseBody);
 
             String picId = "your-pic-id";
             String meta = "your-meta-data";
-            Device resultDevice = spyDevice.enrollDevice(picId, meta);
+            Device resultDevice = trustedDevice.enrollDevice(picId, meta);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
@@ -178,6 +188,8 @@ class TrustedDeviceImplTest {
                     return future;
                 });
 
+        String picId = "your-pic-id";
+        String meta = "your-meta-data";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -186,20 +198,19 @@ class TrustedDeviceImplTest {
         }
         String baseUrl = "http://localhost";
         TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-        trustedDevice.setHttpClient(mockedClient);
-
         Device expectedDevice = new Device();
-        TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
-        Mockito.doReturn(Optional.of(expectedDevice)).when(spyDevice).parseDeviceFromAsyncResponse(responseBody);
+        Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+        Utils spyUtils = Mockito.spy(u);
+        Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
+        trustedDevice.setUtils(spyUtils);
 
-        String picId = "your-pic-id";
-        String meta = "your-meta-data";
-        CompletableFuture<Optional<Device>> resultDeviceFuture = spyDevice.enrollAsyncDevice(picId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.enrollAsyncDevice(picId, meta);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
         assertEquals(expectedDevice, resultDevice.get());
         Mockito.verify(mockedClient, Mockito.times(1)).sendAsync(any(), any());
+
     }
 
     @Test
@@ -217,7 +228,6 @@ class TrustedDeviceImplTest {
 
             HttpClient mockedClient = mock(HttpClient.class);
             when(mockedClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(mockedResponse);
-
             String privateKey = "";
             try {
                 privateKey = readKeyFromFile("./key.priv");
@@ -226,15 +236,16 @@ class TrustedDeviceImplTest {
             }
             String baseUrl = "http://localhost";
             TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-            trustedDevice.setHttpClient(mockedClient);
+            Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+            u.setHttpClient(mockedClient);
 
             Device expectedDevice = new Device();
-            TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
+            Utils spyDevice = Mockito.spy(u);
             Mockito.doReturn(expectedDevice).when(spyDevice).parseDeviceFromResponse(responseBody);
 
-            String picId = "your-pic-id";
+            String fazpassId = "fazpass-id";
             String meta = "your-meta-data";
-            Device resultDevice = spyDevice.validateDevice(picId, meta);
+            Device resultDevice = trustedDevice.validateDevice(fazpassId, meta);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
@@ -263,6 +274,8 @@ class TrustedDeviceImplTest {
                     return future;
                 });
 
+        String fazpassId = "fazpass-id";
+        String meta = "your-meta-data";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -271,20 +284,19 @@ class TrustedDeviceImplTest {
         }
         String baseUrl = "http://localhost";
         TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-        trustedDevice.setHttpClient(mockedClient);
-
         Device expectedDevice = new Device();
-        TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
-        Mockito.doReturn(Optional.of(expectedDevice)).when(spyDevice).parseDeviceFromAsyncResponse(responseBody);
+        Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+        Utils spyUtils = Mockito.spy(u);
+        Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
+        trustedDevice.setUtils(spyUtils);
 
-        String picId = "your-pic-id";
-        String meta = "your-meta-data";
-        CompletableFuture<Optional<Device>> resultDeviceFuture = spyDevice.validateAsyncDevice(picId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.validateAsyncDevice(fazpassId, meta);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
         assertEquals(expectedDevice, resultDevice.get());
         Mockito.verify(mockedClient, Mockito.times(1)).sendAsync(any(), any());
+
     }
 
     @Test
@@ -302,7 +314,6 @@ class TrustedDeviceImplTest {
 
             HttpClient mockedClient = mock(HttpClient.class);
             when(mockedClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(mockedResponse);
-
             String privateKey = "";
             try {
                 privateKey = readKeyFromFile("./key.priv");
@@ -311,15 +322,16 @@ class TrustedDeviceImplTest {
             }
             String baseUrl = "http://localhost";
             TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-            trustedDevice.setHttpClient(mockedClient);
+            Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+            u.setHttpClient(mockedClient);
 
             Device expectedDevice = new Device();
-            TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
+            Utils spyDevice = Mockito.spy(u);
             Mockito.doReturn(expectedDevice).when(spyDevice).parseDeviceFromResponse(responseBody);
 
-            String picId = "your-pic-id";
+            String fazpassId = "fazpass-id";
             String meta = "your-meta-data";
-            Device resultDevice = spyDevice.removeDevice(picId, meta);
+            Device resultDevice = trustedDevice.removeDevice(fazpassId, meta);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
@@ -348,6 +360,8 @@ class TrustedDeviceImplTest {
                     return future;
                 });
 
+        String fazpassId = "fazpass-id";
+        String meta = "your-meta-data";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -356,20 +370,19 @@ class TrustedDeviceImplTest {
         }
         String baseUrl = "http://localhost";
         TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl(privateKey, baseUrl);
-        trustedDevice.setHttpClient(mockedClient);
-
         Device expectedDevice = new Device();
-        TrustedDeviceImpl spyDevice = Mockito.spy(trustedDevice);
-        Mockito.doReturn(Optional.of(expectedDevice)).when(spyDevice).parseDeviceFromAsyncResponse(responseBody);
+        Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+        Utils spyUtils = Mockito.spy(u);
+        Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
+        trustedDevice.setUtils(spyUtils);
 
-        String picId = "your-pic-id";
-        String meta = "your-meta-data";
-        CompletableFuture<Optional<Device>> resultDeviceFuture = spyDevice.removeAsyncDevice(picId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.removeAsyncDevice(fazpassId, meta);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
         assertEquals(expectedDevice, resultDevice.get());
         Mockito.verify(mockedClient, Mockito.times(1)).sendAsync(any(), any());
+
     }
 }
 

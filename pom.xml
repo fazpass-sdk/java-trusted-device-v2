@@ -94,6 +94,7 @@
                     <exclude>com/fazpass/javatdv2/exception/*</exclude>
                     <exclude>com/fazpass/javatdv2/App.java</exclude>
                     <exclude>com/fazpass/javatdv2/TrustedDevice.java</exclude>
+                    <exclude>com/fazpass/javatdv2/Utils.java</exclude>
                   </excludes>
                 </rule>
               </rules>

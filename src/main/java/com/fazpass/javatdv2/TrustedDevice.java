@@ -1,6 +1,8 @@
 package com.fazpass.javatdv2;
 
 import com.fazpass.javatdv2.exception.FazpassException;
+
+import java.net.http.HttpClient;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -70,4 +72,5 @@ public interface TrustedDevice {
      * @return {@link CompletableFuture<Optional<Device>>}
      */
     CompletableFuture<Optional<Device>> removeAsyncDevice(String fazpassId, String meta);
+
 }
