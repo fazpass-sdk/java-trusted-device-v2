@@ -114,6 +114,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M6</version>  <!-- Use the latest version -->
+        <configuration>
+          <excludes>
+            <exclude>com/fazpass/javatdv2/Sample.java</exclude>
+            <exclude>com/fazpass/javatdv2/Utils.java</exclude>
+          </excludes>
+        </configuration>
       </plugin>
     </plugins>
   </build>
