@@ -58,7 +58,7 @@ class UtilsTest {
             when(mockResponse.body()).thenReturn(responseBody);
             when(mockClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(mockResponse);
 
-            Device device = utils.processDeviceRequest("endpoint", "picId", "meta");
+            Device device = utils.processDeviceRequest("endpoint", "picId", "meta", "appId");
             assertNotNull(device);
         } catch (Exception e) {
             fail("Exception should not have been thrown.");
@@ -79,7 +79,7 @@ class UtilsTest {
                         return future;
                     });
 
-            Optional<Device> device = utils.processAsyncDeviceRequest("endpoint", "picId", "meta").get();
+            Optional<Device> device = utils.processAsyncDeviceRequest("endpoint", "picId", "meta", "appId").get();
             assertTrue(device.isPresent());
         } catch (Exception e) {
             fail("Exception should not have been thrown.");
@@ -123,7 +123,7 @@ class UtilsTest {
             when(mockResponse.body()).thenReturn(responseBody);
             when(mockClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(mockResponse);
 
-            HttpResponse<String> response = utils.sendRequest("endpoint", "picId", "meta");
+            HttpResponse<String> response = utils.sendRequest("endpoint", "picId", "meta", "appId");
             assertNotNull(response);
         } catch (Exception e) {
             fail("Exception should not have been thrown.");
@@ -143,12 +143,16 @@ class UtilsTest {
                         CompletableFuture<HttpResponse<String>> future = CompletableFuture.completedFuture(mockResponse);
                         return future;
                     });
-            CompletableFuture<Optional<Device>> response = utils.sendAsyncRequest("endpoint", "picId", "meta");
+            CompletableFuture<Optional<Device>> response = utils.sendAsyncRequest("endpoint", "picId", "meta", "appId");
             assertNotNull(response.get());
         } catch (Exception e) {
             fail("Exception should not have been thrown.");
         }
     }
-
+    @Test
+    void testGetUrl(){
+        Utils u = new Utils(mockClient, objectMapper, "","http://localhost");
+        assertEquals(u.getBaseUrl(), "http://localhost");
+    }
     // ...Tambahkan test lainnya di sini
 }

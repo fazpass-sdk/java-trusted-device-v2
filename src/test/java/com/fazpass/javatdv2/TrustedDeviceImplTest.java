@@ -7,15 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -73,14 +73,30 @@ class TrustedDeviceImplTest {
 
             String picId = "your-pic-id";
             String meta = "your-meta-data";
-            Device resultDevice = trustedDevice.checkDevice(picId, meta);
+            String appId = "your-app-id";
+            Device resultDevice = trustedDevice.checkDevice(picId, meta, appId);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
         } catch (FazpassException | IOException | InterruptedException ignored) {
         }
     }
-
+    @Test
+    void checkDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String baseUrl = "http://localhost";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        try{
+            td.checkDevice("anvaris@gmail.com", "meta","app-id");
+        }catch (FazpassException e){
+            assertNotEquals("", e.getMessage());
+        }
+    }
     @Test
     void checkAsyncDevice_ValidInput_ReturnsDevice() {
         String responseBody = "{\n" +
@@ -104,6 +120,7 @@ class TrustedDeviceImplTest {
 
         String picId = "your-pic-id";
         String meta = "your-meta-data";
+        String appId = "your-app-id";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -118,7 +135,7 @@ class TrustedDeviceImplTest {
         Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
         trustedDevice.setUtils(spyUtils);
 
-        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.checkAsyncDevice(picId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.checkAsyncDevice(picId, meta, appId);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
@@ -127,6 +144,26 @@ class TrustedDeviceImplTest {
 
     }
 
+    @Test
+    void checkAsyncDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String picId = "123";
+        String meta = "meta";
+        String appId = "appId";
+        String baseUrl = "https://google.com";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        CompletableFuture<Optional<Device>> actualResult = td.checkAsyncDevice(picId, meta, appId);
+        try {
+            actualResult.join(); // Trigger the CompletableFuture to complete
+        } catch (CompletionException e) {
+            assertTrue(e.getCause() instanceof IOException, "Exception should be an IOException");
+        }
+    }
     @Test
     void enrollDevice_ValidInput_ReturnsDevice() {
         try {
@@ -159,14 +196,30 @@ class TrustedDeviceImplTest {
 
             String picId = "your-pic-id";
             String meta = "your-meta-data";
-            Device resultDevice = trustedDevice.enrollDevice(picId, meta);
+            String appId = "your-app-id";
+            Device resultDevice = trustedDevice.enrollDevice(picId, meta, appId);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
         } catch (FazpassException | IOException | InterruptedException ignored) {
         }
     }
-
+    @Test
+    void enrollDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String baseUrl = "http://localhost";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        try{
+            td.enrollDevice("anvaris@gmail.com", "meta","app-id");
+        }catch (FazpassException e){
+            assertNotEquals("", e.getMessage());
+        }
+    }
     @Test
     void enrollAsyncDevice_ValidInput_ReturnsDevice() {
         String responseBody = "{\n" +
@@ -190,6 +243,7 @@ class TrustedDeviceImplTest {
 
         String picId = "your-pic-id";
         String meta = "your-meta-data";
+        String appId = "your-app-id";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -204,7 +258,7 @@ class TrustedDeviceImplTest {
         Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
         trustedDevice.setUtils(spyUtils);
 
-        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.enrollAsyncDevice(picId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.enrollAsyncDevice(picId, meta,appId );
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
@@ -212,7 +266,26 @@ class TrustedDeviceImplTest {
         Mockito.verify(mockedClient, Mockito.times(1)).sendAsync(any(), any());
 
     }
-
+    @Test
+    void enrollAsyncDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String picId = "123";
+        String meta = "meta";
+        String appId = "appId";
+        String baseUrl = "https://google.com";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        CompletableFuture<Optional<Device>> actualResult = td.enrollAsyncDevice(picId, meta, appId);
+        try {
+            actualResult.join(); // Trigger the CompletableFuture to complete
+        } catch (CompletionException e) {
+            assertTrue(e.getCause() instanceof IOException, "Exception should be an IOException");
+        }
+    }
     @Test
     void validateDevice_ValidInput_ReturnsDevice() {
         try {
@@ -245,14 +318,30 @@ class TrustedDeviceImplTest {
 
             String fazpassId = "fazpass-id";
             String meta = "your-meta-data";
-            Device resultDevice = trustedDevice.validateDevice(fazpassId, meta);
+            String appId = "your-app-id";
+            Device resultDevice = trustedDevice.validateDevice(fazpassId, meta, appId);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
         } catch (FazpassException | IOException | InterruptedException ignored) {
         }
     }
-
+    @Test
+    void validateDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String baseUrl = "http://localhost";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        try{
+            td.validateDevice("pic_id", "meta","app-id");
+        }catch (FazpassException e){
+            assertNotEquals("", e.getMessage());
+        }
+    }
     @Test
     void validateAsyncDevice_ValidInput_ReturnsDevice() {
         String responseBody = "{\n" +
@@ -276,6 +365,7 @@ class TrustedDeviceImplTest {
 
         String fazpassId = "fazpass-id";
         String meta = "your-meta-data";
+        String appId = "your-app-id";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -290,7 +380,7 @@ class TrustedDeviceImplTest {
         Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
         trustedDevice.setUtils(spyUtils);
 
-        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.validateAsyncDevice(fazpassId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.validateAsyncDevice(fazpassId, meta, appId);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
@@ -298,7 +388,26 @@ class TrustedDeviceImplTest {
         Mockito.verify(mockedClient, Mockito.times(1)).sendAsync(any(), any());
 
     }
-
+    @Test
+    void validateAsyncDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String fazpassId = "123";
+        String meta = "meta";
+        String appId = "appId";
+        String baseUrl = "https://google.com";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        CompletableFuture<Optional<Device>> actualResult = td.validateAsyncDevice(fazpassId, meta, appId);
+        try {
+            actualResult.join(); // Trigger the CompletableFuture to complete
+        } catch (CompletionException e) {
+            assertTrue(e.getCause() instanceof IOException, "Exception should be an IOException");
+        }
+    }
     @Test
     void removeDevice_ValidInput_ReturnsDevice() {
         try {
@@ -331,14 +440,30 @@ class TrustedDeviceImplTest {
 
             String fazpassId = "fazpass-id";
             String meta = "your-meta-data";
-            Device resultDevice = trustedDevice.removeDevice(fazpassId, meta);
+            String appId = "your-app-id";
+            Device resultDevice = trustedDevice.removeDevice(fazpassId, meta, appId);
 
             assertEquals(expectedDevice, resultDevice);
             Mockito.verify(mockedClient, Mockito.times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
         } catch (FazpassException | IOException | InterruptedException ignored) {
         }
     }
-
+    @Test
+    void removeDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String baseUrl = "http://localhost";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        try{
+            td.removeDevice("pic_id", "meta","app-id");
+        }catch (FazpassException e){
+            assertNotEquals("", e.getMessage());
+        }
+    }
     @Test
     void removeAsyncDevice_ValidInput_ReturnsDevice() {
         String responseBody = "{\n" +
@@ -362,6 +487,7 @@ class TrustedDeviceImplTest {
 
         String fazpassId = "fazpass-id";
         String meta = "your-meta-data";
+        String appId = "your-app-id";
         String privateKey = "";
         try {
             privateKey = readKeyFromFile("./key.priv");
@@ -376,13 +502,49 @@ class TrustedDeviceImplTest {
         Mockito.doReturn(Optional.of(expectedDevice)).when(spyUtils).parseDeviceFromAsyncResponse(responseBody);
         trustedDevice.setUtils(spyUtils);
 
-        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.removeAsyncDevice(fazpassId, meta);
+        CompletableFuture<Optional<Device>> resultDeviceFuture = trustedDevice.removeAsyncDevice(fazpassId, meta, appId);
         Optional<Device> resultDevice = resultDeviceFuture.join();
 
         assertTrue(resultDevice.isPresent());
         assertEquals(expectedDevice, resultDevice.get());
         Mockito.verify(mockedClient, Mockito.times(1)).sendAsync(any(), any());
 
+    }
+
+    @Test
+    void removeAsyncDevice_ReturnError(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String fazpassId = "123";
+        String meta = "meta";
+        String appId = "appId";
+        String baseUrl = "https://google.com";
+        TrustedDevice td = Fazpass.initialize(privateKey, baseUrl);
+        CompletableFuture<Optional<Device>> actualResult = td.validateAsyncDevice(fazpassId, meta, appId);
+        try {
+            actualResult.join(); // Trigger the CompletableFuture to complete
+        } catch (CompletionException e) {
+            assertTrue(e.getCause() instanceof IOException, "Exception should be an IOException");
+        }
+    }
+
+    @Test
+    void setUtils(){
+        String privateKey = "";
+        try {
+            privateKey = readKeyFromFile("./key.priv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String baseUrl = "https://google.com";
+        TrustedDeviceImpl td = new TrustedDeviceImpl(privateKey, baseUrl);
+        Utils u = new Utils(mockedClient, objectMapper, privateKey, baseUrl);
+        td.setUtils(u);
+        assertEquals(u.getBaseUrl(), baseUrl);
     }
 }
 

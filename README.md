@@ -56,7 +56,7 @@ public class Sample
         try {
             String privateKey = readKeyFromFile("./key.priv");
             TrustedDevice td = Fazpass.initialize(privateKey, url);
-            Device d = td.enrollDevice("0858*******","meta_data");
+            Device d = td.enrollDevice("085811751000","meta_data", "app-id");
             System.out.println(d.getFazpassId());
             System.out.println(d.getScoring());
         } catch (IOException e) {

@@ -40,10 +40,14 @@ class Utils {
         this.baseUrl = baseUrl;
     }
 
+    protected String getBaseUrl() {
+        return baseUrl;
+    }
+
     @Ignore
-    protected Device processDeviceRequest(String endpoint, String picId, String meta) throws FazpassException {
+    protected Device processDeviceRequest(String endpoint, String picId, String meta, String appId) throws FazpassException {
         try {
-            HttpResponse<String> response = sendRequest(endpoint, picId, meta);
+            HttpResponse<String> response = sendRequest(endpoint, picId, meta, appId);
             return parseDeviceFromResponse(response.body());
         } catch (IOException | InterruptedException e) {
             throw new ResponseException(e.getMessage());
@@ -51,8 +55,8 @@ class Utils {
     }
 
     @Ignore
-    protected CompletableFuture<Optional<Device>> processAsyncDeviceRequest(String endpoint, String picId, String meta) {
-        return sendAsyncRequest(endpoint, picId, meta);
+    protected CompletableFuture<Optional<Device>> processAsyncDeviceRequest(String endpoint, String picId, String meta, String appId) {
+        return sendAsyncRequest(endpoint, picId, meta, appId);
     }
 
     @Ignore
@@ -104,14 +108,16 @@ class Utils {
     }
 
     @Ignore
-    protected HttpResponse<String> sendRequest(String endpoint, String picId, String meta) throws IOException, InterruptedException {
+    protected HttpResponse<String> sendRequest(String endpoint, String picId, String meta, String appId) throws IOException, InterruptedException {
         Map<String, String> requestData = new HashMap<>();
         if(endpoint.equals("check") || endpoint.equals("enroll")){
             requestData.put("picId", picId);
             requestData.put("meta", meta);
+            requestData.put("merchant_app_id", appId);
         }else{
             requestData.put("fazpass_id", picId);
             requestData.put("meta", meta);
+            requestData.put("merchant_app_id", appId);
         }
 
         String requestBody = objectMapper.writeValueAsString(requestData);
@@ -125,14 +131,16 @@ class Utils {
     }
 
     @Ignore
-    protected CompletableFuture<Optional<Device>> sendAsyncRequest(String endpoint, String picId, String meta) {
+    protected CompletableFuture<Optional<Device>> sendAsyncRequest(String endpoint, String picId, String meta, String appId) {
         Map<String, String> requestData = new HashMap<>();
         if(endpoint.equals("check") || endpoint.equals("enroll")){
             requestData.put("picId", picId);
             requestData.put("meta", meta);
+            requestData.put("merchant_app_id", appId);
         }else{
             requestData.put("fazpass_id", picId);
             requestData.put("meta", meta);
+            requestData.put("merchant_app_id", appId);
         }
         String requestBody;
         try {

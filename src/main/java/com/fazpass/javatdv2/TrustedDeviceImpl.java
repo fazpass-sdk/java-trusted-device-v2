@@ -13,51 +13,47 @@ class TrustedDeviceImpl implements TrustedDevice{
     }
 
     @Override
-    public Device checkDevice(String picId, String meta) throws FazpassException {
-        return u.processDeviceRequest("/check", picId, meta);
+    public Device checkDevice(String picId, String meta, String appId) throws FazpassException {
+        return u.processDeviceRequest("/check", picId, meta, appId);
     }
 
     @Override
-    public CompletableFuture<Optional<Device>> checkAsyncDevice(String picId, String meta) {
-        return u.processAsyncDeviceRequest("/check", picId, meta);
+    public CompletableFuture<Optional<Device>> checkAsyncDevice(String picId, String meta, String appId) {
+        return u.processAsyncDeviceRequest("/check", picId, meta, appId);
     }
 
     @Override
-    public Device enrollDevice(String picId, String meta) throws FazpassException{
-        return u.processDeviceRequest("/enroll", picId, meta);
+    public Device enrollDevice(String picId, String meta, String appId) throws FazpassException{
+        return u.processDeviceRequest("/enroll", picId, meta, appId);
     }
 
     @Override
-    public CompletableFuture<Optional<Device>> enrollAsyncDevice(String picId, String meta) {
-        return u.processAsyncDeviceRequest("/enroll", picId, meta);
+    public CompletableFuture<Optional<Device>> enrollAsyncDevice(String picId, String meta, String appId) {
+        return u.processAsyncDeviceRequest("/enroll", picId, meta, appId);
     }
 
     @Override
-    public Device validateDevice(String fazpassId, String meta) throws FazpassException{
-        return u.processDeviceRequest("/validate", fazpassId, meta);
+    public Device validateDevice(String fazpassId, String meta, String appId) throws FazpassException{
+        return u.processDeviceRequest("/validate", fazpassId, meta, appId);
     }
 
     @Override
-    public CompletableFuture<Optional<Device>> validateAsyncDevice(String fazpassId, String meta) {
-        return u.processAsyncDeviceRequest("/validate", fazpassId, meta);
+    public CompletableFuture<Optional<Device>> validateAsyncDevice(String fazpassId, String meta, String appId) {
+        return u.processAsyncDeviceRequest("/validate", fazpassId, meta, appId);
     }
 
     @Override
-    public Device removeDevice(String fazpassId, String meta) throws FazpassException {
-        return u.processDeviceRequest("/remove", fazpassId, meta);
+    public Device removeDevice(String fazpassId, String meta, String appId) throws FazpassException {
+        return u.processDeviceRequest("/remove", fazpassId, meta, appId);
     }
 
     @Override
-    public CompletableFuture<Optional<Device>> removeAsyncDevice(String fazpassId, String meta) {
-        return u.processAsyncDeviceRequest("/remove", fazpassId, meta);
+    public CompletableFuture<Optional<Device>> removeAsyncDevice(String fazpassId, String meta, String appId) {
+        return u.processAsyncDeviceRequest("/remove", fazpassId, meta, appId);
     }
     // codecov ignore start
     protected void setHttpClient(HttpClient mockedClient) {
         this.u.setHttpClient(mockedClient);
-    }
-
-    protected Object getUtils() {
-        return this.u;
     }
 
     public void setUtils(Utils spyUtils) {
