@@ -92,7 +92,7 @@
                     <!-- Add the classes you want to ignore here -->
                     <exclude>com/fazpass/javatdv2/dto/*</exclude>
                     <exclude>com/fazpass/javatdv2/exception/*</exclude>
-                    <exclude>com/fazpass/javatdv2/App.java</exclude>
+                    <exclude>com/fazpass/javatdv2/Sample.java</exclude>
                     <exclude>com/fazpass/javatdv2/TrustedDevice.java</exclude>
                     <exclude>com/fazpass/javatdv2/Utils.java</exclude>
                   </excludes>
