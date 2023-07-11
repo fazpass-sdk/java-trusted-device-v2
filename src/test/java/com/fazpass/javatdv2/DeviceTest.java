@@ -23,26 +23,8 @@ class DeviceTest {
         geolocation.put("latitude", "123");
         geolocation.put("longitude", "456");
 
-        device = new Device(
-                "fazpassId",
-                true,
-                "timeStamp",
-                "platform",
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                true,
-                "application",
-                deviceId,
-                Arrays.asList("simSerial1", "simSerial2"),
-                geolocation,
-                1.0,
-                "riskLevel"
-        );
+        device = new Device();
+
     }
 
     @Test

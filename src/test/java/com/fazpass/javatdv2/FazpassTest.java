@@ -7,27 +7,17 @@ import junit.framework.TestCase;
 public class FazpassTest extends TestCase {
     @Test
     void initializeShouldThrowWhenPrivateKeyIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize(null, "http://localhost"));
+        assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize(null));
     }
 
     @Test
     void initializeShouldThrowWhenPrivateKeyIsEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize("", "http://localhost"));
-    }
-
-    @Test
-    void initializeShouldThrowWhenBaseUrlIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize("privateKey", null));
-    }
-
-    @Test
-    void initializeShouldThrowWhenBaseUrlIsEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize("privateKey", ""));
+        assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize(""));
     }
 
     @Test
     void initializeShouldReturnTrustedDeviceWhenParametersAreValid() {
-        TrustedDevice trustedDevice = Fazpass.initialize("privateKey", "http://localhost");
+        TrustedDevice trustedDevice = Fazpass.initialize("privateKey");
         assertNotNull(trustedDevice);
         assertTrue(trustedDevice instanceof TrustedDeviceImpl);
     }

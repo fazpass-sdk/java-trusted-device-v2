@@ -4,10 +4,10 @@ public final class Fazpass {
     private Fazpass(){
     }
 
-    public static TrustedDevice initialize(String privateKey, String baseUrl){
-        if (privateKey == null || privateKey.isEmpty() || baseUrl == null || baseUrl.isEmpty()) {
-            throw new IllegalArgumentException("Url and private keys must be non-null and not empty.");
+    public static TrustedDevice initialize(String pathKey){
+        if (pathKey == null || pathKey.isEmpty()) {
+            throw new IllegalArgumentException("private keys must be non-null and not empty.");
         }
-        return new TrustedDeviceImpl(privateKey, baseUrl);
+        return new TrustedDeviceImpl(pathKey);
     }
 }

@@ -37,14 +37,13 @@ dependencies {
 ### initialize
 
 ```java
-TrustedDevice td = Fazpass.initialize(privateKey, url);
+TrustedDevice td = Fazpass.initialize(path_key);
 ```
 
 Initializes a TrustedDevice object with the provided private key and base URL. Both must be non-null and not empty.
 
 <b>privateKey</b>: A string that represents the private key for the Trusted Device.
 
-<b>baseUrl</b>: A string that represents the base URL.
 
 ### Usage Example
 ```java
@@ -52,11 +51,11 @@ public class Sample
 {
     public static void main( String[] args )
     {
-        String url = "http://localhost:8080";
         try {
             String privateKey = readKeyFromFile("./key.priv");
             TrustedDevice td = Fazpass.initialize(privateKey, url);
-            Device d = td.enrollDevice("085811751000","meta_data", "app-id");
+            String meta = "encrypted_meta_from_response";
+            Device device = trustedDevice.extract(meta);
             System.out.println(d.getFazpassId());
             System.out.println(d.getScoring());
         } catch (IOException e) {

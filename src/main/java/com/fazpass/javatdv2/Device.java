@@ -56,8 +56,14 @@ public class Device {
     @JsonProperty("sim_serial")
     private List<String> simSerial;
 
+    @JsonProperty("sim_operator")
+    private List<String> simOperator;
+
     @JsonProperty("geolocation")
     private Map<String, String> geolocation;
+
+    @JsonProperty("client_ip")
+    private String clientIp;
 
     public Device() {
 
@@ -65,6 +71,8 @@ public class Device {
 
     public Device(String fazpassId,
                   Boolean isActive,
+                  Double scoring,
+                  String riskLevel,
                   String timeStamp,
                   String platform,
                   Boolean isRooted,
@@ -78,11 +86,13 @@ public class Device {
                   String application,
                   Map<String, String> deviceId,
                   List<String> simSerial,
+                  List<String> simOperator,
                   Map<String, String> geolocation,
-                  Double scoring,
-                  String riskLevel) {
+                  String clientIp) {
         this.fazpassId = fazpassId;
         this.isActive = isActive;
+        this.scoring = scoring;
+        this.riskLevel = riskLevel;
         this.timeStamp = timeStamp;
         this.platform = platform;
         this.isRooted = isRooted;
@@ -96,9 +106,9 @@ public class Device {
         this.application = application;
         this.deviceId = deviceId;
         this.simSerial = simSerial;
+        this.simOperator = simOperator;
         this.geolocation = geolocation;
-        this.scoring = scoring;
-        this.riskLevel = riskLevel;
+        this.clientIp = clientIp;
     }
 
     public String getFazpassId() {
@@ -243,5 +253,21 @@ public class Device {
 
     public void setGeolocation(Map<String, String> geolocation) {
         this.geolocation = geolocation;
+    }
+
+    public List<String> getSimOperator() {
+        return simOperator;
+    }
+
+    public void setSimOperator(List<String> simOperator) {
+        this.simOperator = simOperator;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 }
