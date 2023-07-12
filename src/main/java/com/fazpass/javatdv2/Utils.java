@@ -32,7 +32,6 @@ class Utils {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(jsonString, Device.class);
         } catch (Exception e) {
-            e.printStackTrace();
             return new Device();
         }
     }
@@ -44,15 +43,11 @@ class Utils {
              PEMParser privatePemParser = new PEMParser(privateKeyReader)) {
 
             Object privateObject = privatePemParser.readObject();
-            if (!(privateObject instanceof PEMKeyPair)) {
-                throw new Exception("Invalid private key format");
-            }
-
             PEMKeyPair pemKeyPair = (PEMKeyPair) privateObject;
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider("BC");
             return converter.getPrivateKey(pemKeyPair.getPrivateKeyInfo());
         } catch (Exception e) {
-            throw new Exception("Error generating Private Key", e);
+            throw new Exception("error generating private key", e);
         }
     }
 

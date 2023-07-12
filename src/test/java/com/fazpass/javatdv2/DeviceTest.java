@@ -46,6 +46,17 @@ class DeviceTest {
     }
 
     @Test
+    void TestConstructor(){
+        Map<String, String> a = new HashMap<>();
+        Device d = new Device(
+                "fazpass_id", true,1.0,"HIGH","timestamp","platform",true, true, true,true,true,false,
+                true,false,"application_id",a, Arrays.asList("a","b"), Arrays.asList("a","b"),a,"");
+        assertEquals("fazpass_id", d.getFazpassId());
+
+    }
+
+
+    @Test
     void getFazpassId() {
         assertEquals("fazpassId", device.getFazpassId());
     }
