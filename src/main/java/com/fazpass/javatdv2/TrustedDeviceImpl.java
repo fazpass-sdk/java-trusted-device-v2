@@ -6,12 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class TrustedDeviceImpl implements TrustedDevice{
-    private String privateKey;
-    public TrustedDeviceImpl(String pathKey) {
+    private final String privateKey;
+    public TrustedDeviceImpl(String pathKey) throws IOException {
         try{
             privateKey = readKeyFromFile(pathKey);
         }catch (IOException e){
-            e.printStackTrace();
+            throw new IOException("key not found");
         }
     }
     private String readKeyFromFile(String filePath) throws IOException {

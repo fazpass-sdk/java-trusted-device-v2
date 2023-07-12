@@ -1,23 +1,21 @@
 package com.fazpass.javatdv2;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import junit.framework.TestCase;
 
+import java.io.IOException;
+
 public class FazpassTest extends TestCase {
-    @Test
-    void initializeShouldThrowWhenPrivateKeyIsNull() {
+    public void testInitializeShouldThrowWhenPrivateKeyIsNull() {
         assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize(null));
     }
 
-    @Test
-    void initializeShouldThrowWhenPrivateKeyIsEmpty() {
+    public void testInitializeShouldThrowWhenPrivateKeyIsEmpty() {
         assertThrows(IllegalArgumentException.class, () -> Fazpass.initialize(""));
     }
 
-    @Test
-    void initializeShouldReturnTrustedDeviceWhenParametersAreValid() {
-        TrustedDevice trustedDevice = Fazpass.initialize("privateKey");
+    public void testInitializeShouldReturnTrustedDeviceWhenParametersAreValid() throws IOException {
+        TrustedDevice trustedDevice = Fazpass.initialize("./private_2.key");
         assertNotNull(trustedDevice);
         assertTrue(trustedDevice instanceof TrustedDeviceImpl);
     }

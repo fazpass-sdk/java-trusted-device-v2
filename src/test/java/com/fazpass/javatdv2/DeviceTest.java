@@ -22,9 +22,27 @@ class DeviceTest {
         Map<String, String> geolocation = new HashMap<>();
         geolocation.put("latitude", "123");
         geolocation.put("longitude", "456");
-
         device = new Device();
-
+        device.setFazpassId("fazpassId");
+        device.setScoring(1.0);
+        device.setRiskLevel("riskLevel");
+        device.setActive(true);
+        device.setTimeStamp("timeStamp");
+        device.setPlatform("platform");
+        device.setRooted(true);
+        device.setEmulator(true);
+        device.setGpsSpoof(true);
+        device.setAppTempering(true);
+        device.setCloneApp(true);
+        device.setDebug(true);
+        device.setSimSerial(Arrays.asList("simSerial1", "simSerial2"));
+        device.setSimOperator(Arrays.asList("operator 1", "operator 2"));
+        device.setClientIp("127.0.0.1");
+        device.setApplication("application");
+        device.setGeolocation(geolocation);
+        device.setDeviceId(deviceId);
+        device.setVpn(true);
+        device.setScreenSharing(true);
     }
 
     @Test
@@ -237,5 +255,28 @@ class DeviceTest {
         newGeolocation.put("longitude", "012");
         device.setGeolocation(newGeolocation);
         assertEquals(newGeolocation, device.getGeolocation());
+    }
+
+    @Test
+    void getSimOperator() {
+        List<String> simSerial = Arrays.asList("operator 1", "operator 2");
+        assertEquals(simSerial, device.getSimOperator());
+    }
+
+    @Test
+    void setSimOperator() {
+        device.setSimOperator(Arrays.asList("operator 1", "operator 2"));
+        assertEquals(Arrays.asList("operator 1", "operator 2"), device.getSimOperator());
+    }
+
+    @Test
+    void getClientIp() {
+        assertEquals("127.0.0.1", device.getClientIp());
+    }
+
+    @Test
+    void setClientIp() {
+        device.setApplication("127.0.0.1");
+        assertEquals("127.0.0.1", device.getClientIp());
     }
 }
