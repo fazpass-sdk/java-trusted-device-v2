@@ -8,7 +8,7 @@ public class TrustedDeviceImplTest {
 
     @Test
     public void testExtract() throws IOException {
-        TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl("key.priv");
+        TrustedDeviceImpl trustedDevice = new TrustedDeviceImpl("private_2.key");
         String meta = "encrypted_meta";
         Device device = trustedDevice.extract(meta);
         assertEquals("decrypted_meta", device.getFazpassId());
