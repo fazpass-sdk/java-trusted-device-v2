@@ -15,16 +15,6 @@
 The Fazpass library provides a set of functions to manage trusted devices. With this library, you can initialize a Trusted Device, and perform operations such as checking, enrolling, validating, and removing a device.
 
 ## Getting Started
-### Maven
-```maven
-<dependencies>
-    <dependency>
-        <groupId>com.fazpass</groupId>
-        <artifactId>javatdv2</artifactId>
-        <version>1.0.0</version>
-    </dependency>
-</dependencies>
-```
 ### Gradle
 ```groovy
 dependencies {
