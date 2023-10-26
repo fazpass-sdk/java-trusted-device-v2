@@ -20,7 +20,7 @@ class Utils {
         this.privateKey = privateKey;
     }
 
-    protected Device decryptResponse(String encryptedMeta) {
+    protected Meta decryptResponse(String encryptedMeta) {
         try {
             byte[] encryptedBytes = Base64.getDecoder().decode(encryptedMeta);
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
@@ -30,9 +30,9 @@ class Utils {
             String jsonString = new String(decryptedBytes, StandardCharsets.UTF_8);
             System.out.println(jsonString);
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(jsonString, Device.class);
+            return objectMapper.readValue(jsonString, Meta.class);
         } catch (Exception e) {
-            return new Device();
+            return new Meta();
         }
     }
 

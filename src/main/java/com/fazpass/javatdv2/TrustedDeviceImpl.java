@@ -18,7 +18,7 @@ class TrustedDeviceImpl implements TrustedDevice{
         return new String(Files.readAllBytes(Paths.get(filePath)));
     }
     @Override
-    public Device extract(String meta) {
+    public Meta extract(String meta) {
         Utils u = new Utils(this.privateKey);
         return u.decryptResponse(meta);
     }

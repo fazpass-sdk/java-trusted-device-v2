@@ -11,7 +11,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeviceTest {
-    private Device device;
+    private Meta device;
 
     @BeforeEach
     void setUp() {
@@ -22,37 +22,40 @@ class DeviceTest {
         Map<String, String> geolocation = new HashMap<>();
         geolocation.put("latitude", "123");
         geolocation.put("longitude", "456");
-        device = new Device();
+        device = new Meta();
         device.setFazpassId("fazpassId");
         device.setScoring(1.0);
         device.setRiskLevel("riskLevel");
-        device.setActive(true);
+        device.setIsActive(true);
         device.setTimeStamp("timeStamp");
         device.setPlatform("platform");
-        device.setRooted(true);
-        device.setEmulator(true);
-        device.setGpsSpoof(true);
-        device.setAppTempering(true);
-        device.setCloneApp(true);
-        device.setDebug(true);
+        device.setIsRooted(true);
+        device.setIsEmulator(true);
+        device.setIsGpsSpoof(true);
+        device.setIsAppTempering(true);
+        device.setIsCloneApp(true);
+        device.setIsDebug(true);
         device.setSimSerial(Arrays.asList("simSerial1", "simSerial2"));
         device.setSimOperator(Arrays.asList("operator 1", "operator 2"));
         device.setClientIp("127.0.0.1");
         device.setApplication("application");
         device.setGeolocation(geolocation);
-        device.setDeviceId(deviceId);
-        device.setVpn(true);
-        device.setScreenSharing(true);
+        device.setDevice(new Device());
+        device.setIsVpn(true);
+        device.setIsScreenSharing(true);
     }
 
     @Test
     void TestConstructor(){
+        Device device = new Device("exampleName", "exampleVersion", "exampleSeries", "exampleCPU", "exampleID");
         Map<String, String> a = new HashMap<>();
-        Device d = new Device(
-                "fazpass_id", true,1.0,"HIGH","timestamp","platform",true, true, true,true,true,false,
-                true,false,"application_id",a, Arrays.asList("a","b"), Arrays.asList("a","b"),a,"");
-        assertEquals("fazpass_id", d.getFazpassId());
+        Meta meta = new Meta(
+                "fazpass_id", true, 1.0, "HIGH", "timestamp", "platform", true, true, true, true, true, 
+                false, true, false, "application_id", device, Arrays.asList("a", "b"), 
+                Arrays.asList("a", "b"), a, "", Arrays.asList(device), true
+        );
 
+        assertEquals("fazpass_id", meta.getFazpassId());
     }
 
 
@@ -91,13 +94,13 @@ class DeviceTest {
 
     @Test
     void getActive() {
-        assertTrue(device.getActive());
+        assertTrue(device.getIsActive());
     }
 
     @Test
     void setActive() {
-        device.setActive(false);
-        assertFalse(device.getActive());
+        device.setIsActive(false);
+        assertFalse(device.getIsActive());
     }
 
     @Test
@@ -124,90 +127,90 @@ class DeviceTest {
 
     @Test
     void getRooted() {
-        assertTrue(device.getRooted());
+        assertTrue(device.getIsRooted());
     }
 
     @Test
     void setRooted() {
-        device.setRooted(false);
-        assertFalse(device.getRooted());
+        device.setIsRooted(false);
+        assertFalse(device.getIsRooted());
     }
 
     @Test
     void getEmulator() {
-        assertTrue(device.getEmulator());
+        assertTrue(device.getIsEmulator());
     }
 
     @Test
     void setEmulator() {
-        device.setEmulator(false);
-        assertFalse(device.getEmulator());
+        device.setIsEmulator(false);
+        assertFalse(device.getIsEmulator());
     }
 
     @Test
     void getGpsSpoof() {
-        assertTrue(device.getGpsSpoof());
+        assertTrue(device.getIsGpsSpoof());
     }
 
     @Test
     void setGpsSpoof() {
-        device.setGpsSpoof(false);
-        assertFalse(device.getGpsSpoof());
+        device.setIsGpsSpoof(false);
+        assertFalse(device.getIsGpsSpoof());
     }
 
     @Test
     void getAppTempering() {
-        assertTrue(device.getAppTempering());
+        assertTrue(device.getIsAppTempering());
     }
 
     @Test
     void setAppTempering() {
-        device.setAppTempering(false);
-        assertFalse(device.getAppTempering());
+        device.setIsAppTempering(false);
+        assertFalse(device.getIsAppTempering());
     }
 
     @Test
     void getVpn() {
-        assertTrue(device.getVpn());
+        assertTrue(device.getIsVpn());
     }
 
     @Test
     void setVpn() {
-        device.setVpn(false);
-        assertFalse(device.getVpn());
+        device.setIsVpn(false);
+        assertFalse(device.getIsVpn());
     }
 
     @Test
     void getCloneApp() {
-        assertTrue(device.getCloneApp());
+        assertTrue(device.getIsCloneApp());
     }
 
     @Test
     void setCloneApp() {
-        device.setCloneApp(false);
-        assertFalse(device.getCloneApp());
+        device.setIsCloneApp(false);
+        assertFalse(device.getIsCloneApp());
     }
 
     @Test
     void getScreenSharing() {
-        assertTrue(device.getScreenSharing());
+        assertTrue(device.getIsScreenSharing());
     }
 
     @Test
     void setScreenSharing() {
-        device.setScreenSharing(false);
-        assertFalse(device.getScreenSharing());
+        device.setIsScreenSharing(false);
+        assertFalse(device.getIsScreenSharing());
     }
 
     @Test
     void getDebug() {
-        assertTrue(device.getDebug());
+        assertTrue(device.getIsDebug());
     }
 
     @Test
     void setDebug() {
-        device.setDebug(false);
-        assertFalse(device.getDebug());
+        device.setIsDebug(false);
+        assertFalse(device.getIsDebug());
     }
 
     @Test
@@ -223,19 +226,15 @@ class DeviceTest {
 
     @Test
     void getDeviceId() {
-        Map<String, String> deviceId = new HashMap<>();
-        deviceId.put("type", "testType");
-        deviceId.put("value", "testValue");
-        assertEquals(deviceId, device.getDeviceId());
+        Device d = new Device();
+        assertEquals(d, device.getDevice());
     }
 
     @Test
     void setDeviceId() {
-        Map<String, String> newDeviceId = new HashMap<>();
-        newDeviceId.put("type", "newTestType");
-        newDeviceId.put("value", "newTestValue");
-        device.setDeviceId(newDeviceId);
-        assertEquals(newDeviceId, device.getDeviceId());
+        Device d = new Device();
+        device.setDevice(new Device());
+        assertEquals(d.getId(), device.getDevice().getId());
     }
 
     @Test
